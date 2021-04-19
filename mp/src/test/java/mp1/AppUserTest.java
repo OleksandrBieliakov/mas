@@ -51,10 +51,10 @@ class AppUserTest {
     @Test
     void getFullName() {
         AppUser appUser1 = new AppUser("loginName");
-        assertThrows(Exception.class, appUser1::getFullName);
+        assertThrows(Exception.class, appUser1::getFullNameCapitalised);
         AppUser appUser2 = new AppUser("loginName2", "firstName", "lastName");
         try {
-            assertEquals("firstName lastName", appUser2.getFullName());
+            assertEquals("FIRSTNAME LASTNAME", appUser2.getFullNameCapitalised());
         } catch (Exception e) {
             fail();
         }

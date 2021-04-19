@@ -5,12 +5,13 @@ import java.util.*;
 
 public class AppUser implements Serializable {
 
+    private static final String EXTENT_PERSISTENCE_PATH = "data/AppUser.ser";
+
     // extent
     private static final Set<AppUser> extent = new HashSet<>();
+
     // class attribute
-    private static final String EXTENT_PERSISTENCE_PATH = "data/AppUser.ser";
-    // class attribute
-    private static final int MIN_LOGIN_NAME_LENGTH = 5;
+    private static int MIN_LOGIN_NAME_LENGTH = 5;
 
     // mandatory
     private String loginName;
@@ -20,12 +21,10 @@ public class AppUser implements Serializable {
     private String lastName;
 
     // complex attribute
-    private AppUser father;
-    // complex attribute
-    private AppUser mother;
+    private AppUserSettings appUserSettings = new AppUserSettings();
 
     // multi-value attribute
-    private final Set<AppUser> friends = new HashSet<>();
+    private final Set<String> knownRealLifeNicknames = new HashSet<>();
 
     public AppUser(String loginName) {
         setLoginName(loginName);
@@ -58,11 +57,14 @@ public class AppUser implements Serializable {
     }
 
     // derived attribute
-    public String getFullName() throws Exception {
+    public String getFullNameCapitalised() throws Exception {
         if (firstName == null || lastName == null) {
             throw new Exception("first name or/and last name is missing");
         }
-        return firstName + " " + lastName;
+        if (appUserSettings.isPrivateFirstLastName()) {
+            throw new Exception("first and list name are private");
+        }
+        return firstName.toUpperCase(Locale.ROOT) + " " + lastName.toUpperCase(Locale.ROOT);
     }
 
     // class method
@@ -71,21 +73,6 @@ public class AppUser implements Serializable {
             return Optional.empty();
         }
         return extent.stream().filter(appUser -> appUser.loginName.equals(loginName)).findAny();
-    }
-    // class method
-    public static void delete(AppUser appUser) {
-        if(appUser != null) {
-            extent.remove(appUser);
-        }
-    }
-    // class method
-    public static void clear() {
-        extent.clear();
-    }
-
-    // class method
-    private static boolean invalidLoginNameLength(String loginName) {
-        return loginName.length() < MIN_LOGIN_NAME_LENGTH;
     }
 
     // method overriding
@@ -98,11 +85,24 @@ public class AppUser implements Serializable {
 
         return getLoginName().equals(appUser.getLoginName());
     }
-
     // method overriding
     @Override
     public int hashCode() {
         return getLoginName().hashCode();
+    }
+
+
+    public static void delete(AppUser appUser) {
+        if(appUser != null) {
+            extent.remove(appUser);
+        }
+    }
+    public static void clear() {
+        extent.clear();
+    }
+
+    private static boolean invalidLoginNameLength(String loginName) {
+        return loginName.length() < MIN_LOGIN_NAME_LENGTH;
     }
 
     public static Set<AppUser> getExtent() {
@@ -159,35 +159,43 @@ public class AppUser implements Serializable {
         this.lastName = trimmedLastName;
     }
 
-    public AppUser getFather() {
-        return father;
+    public AppUserSettings getAppUserSettings() {
+        return appUserSettings;
     }
 
-    public void setFather(AppUser father) {
-        this.father = father;
-    }
-
-    public AppUser getMother() {
-        return mother;
-    }
-
-    public void setMother(AppUser mother) {
-        this.mother = mother;
-    }
-
-    public Set<AppUser> getFriends() {
-        return Collections.unmodifiableSet(friends);
-    }
-
-    public void addFriend(AppUser appUser) {
-        if (appUser != null) {
-            friends.add(appUser);
+    public void setAppUserSettings(AppUserSettings appUserSettings) {
+        if (appUserSettings == null) {
+            throw new IllegalArgumentException("appUserSettings must not be null");
         }
+        this.appUserSettings = appUserSettings;
     }
 
-    public void removeFriend(AppUser appUser) {
-        if (appUser != null) {
-            friends.remove(appUser);
+    public Set<String> getKnownRealLifeNicknames() {
+        return Collections.unmodifiableSet(knownRealLifeNicknames);
+    }
+
+    public void addNickName(String nickname) {
+        if(nickname == null) {
+            throw new IllegalArgumentException("nickname must not be null");
         }
+        knownRealLifeNicknames.add(nickname);
+    }
+
+    public void removeNickName(String nickname) {
+        if(nickname == null) {
+            return;
+        }
+        knownRealLifeNicknames.remove(nickname);
+    }
+
+    public static int getMinLoginNameLength() {
+        return MIN_LOGIN_NAME_LENGTH;
+    }
+
+    public static void setMinLoginNameLength(int minLoginNameLength) {
+        if(minLoginNameLength < 1) {
+            throw new IllegalArgumentException("minLoginNameLength must 1 or greater");
+        }
+        MIN_LOGIN_NAME_LENGTH = minLoginNameLength;
     }
 }
