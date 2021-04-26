@@ -54,6 +54,9 @@ public class Task {
         if (assignment == null) {
             throw new IllegalArgumentException("Assignment must not be null");
         }
+        if (assignment.getTask() != this) {
+            throw new IllegalArgumentException("Assignment is of different task");
+        }
         if (assignments.contains(assignment)) {
             return;
         }

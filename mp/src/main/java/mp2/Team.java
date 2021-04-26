@@ -66,6 +66,9 @@ public class Team {
         if (task == null) {
             throw new IllegalArgumentException("Task must not be null");
         }
+        if (task.getTeam() != this) {
+            throw new IllegalArgumentException("Task is of different team");
+        }
         if (tasks.contains(task)) {
             return;
         }

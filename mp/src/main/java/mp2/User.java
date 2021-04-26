@@ -106,6 +106,9 @@ public class User {
         if (assignment == null) {
             throw new IllegalArgumentException("Assignment must not be null");
         }
+        if (assignment.getAssignedBy() != this) {
+            throw new IllegalArgumentException("Assignment is assigned by different user");
+        }
         if (tasksAssignedBy.contains(assignment)) {
             return;
         }
@@ -126,6 +129,9 @@ public class User {
     public void addTaskAssignedTo(Assignment assignment) {
         if (assignment == null) {
             throw new IllegalArgumentException("Assignment must not be null");
+        }
+        if (assignment.getAssignedTo() != this) {
+            throw new IllegalArgumentException("Assignment is assigned to different user");
         }
         if (tasksAssignedTo.contains(assignment)) {
             return;
