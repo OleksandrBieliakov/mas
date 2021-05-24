@@ -5,8 +5,7 @@ import mp4.bag.Membership;
 import mp4.bag.Team;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BagTest {
 
@@ -15,6 +14,9 @@ public class BagTest {
         Member member = new Member("m1");
         Team team = new Team("t1");
         Membership membership1 = new Membership(team, member);
+        assertThrows(IllegalArgumentException.class, () -> new Membership(team, member));
+        assertEquals(1, Membership.getExtent().size());
+        membership1.leave();
         Membership membership2 = new Membership(team, member);
         assertEquals(2, Membership.getExtent().size());
         membership1.leave();

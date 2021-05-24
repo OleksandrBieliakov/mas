@@ -16,10 +16,22 @@ public class Membership {
     private ZonedDateTime to;
 
     public Membership(Team team, Member member) {
+        validate(team, member);
         setTeam(team);
         setMember(member);
         setFrom(ZonedDateTime.now());
+        team.addMembership(this);
+        member.addMembership(this);
         extent.add(this);
+    }
+
+    public static void validate(Team validatedTeam, Member validatedMember) {
+        if (extent.stream().anyMatch(membership ->
+                membership.team.equals(validatedTeam)
+                        && membership.member.equals(validatedMember)
+                        && membership.to == null)) {
+            throw new IllegalArgumentException("Active membership of member in team exists");
+        }
     }
 
     public Team getTeam() {

@@ -7,9 +7,8 @@ import java.util.Set;
 public class Team {
 
     private String name;
-    private final Set<Member> members = new HashSet<>();
 
-    public Set<Membership> memberships = new HashSet<>();
+    public final Set<Membership> memberships = new HashSet<>();
 
     public Team(String name) {
         setName(name);
