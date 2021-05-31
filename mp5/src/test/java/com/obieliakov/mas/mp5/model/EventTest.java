@@ -98,5 +98,10 @@ class EventTest {
         assertEquals(2, conferenceRepository.findByTopics("t1").size());
         assertEquals(1, conferenceRepository.findByTopics("t2").size());
         assertEquals(0, conferenceRepository.findByTopics("t3").size());
+
+        //same but using query
+        assertEquals(2, conferenceRepository.queryAllByTopic("t1").size());
+        assertEquals(1, conferenceRepository.queryAllByTopic("t2").size());
+        assertEquals(0, conferenceRepository.queryAllByTopic("t3").size());
     }
 }
