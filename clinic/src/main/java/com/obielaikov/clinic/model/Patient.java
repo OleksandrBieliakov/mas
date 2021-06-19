@@ -13,10 +13,6 @@ import javax.persistence.Table;
 @Setter
 public class Patient extends Person {
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;*/
-
     @Column(name = "insurance_number")
     private Integer insuranceNumber;
 }

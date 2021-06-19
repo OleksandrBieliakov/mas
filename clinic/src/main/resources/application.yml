@@ -1,3 +1,12 @@
 spring:
   jpa:
     open-in-view: true
+
+  datasource:
+    username: admin
+    password: secret
+
+  jackson:
+    deserialization:
+      # to save time as UTC
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false

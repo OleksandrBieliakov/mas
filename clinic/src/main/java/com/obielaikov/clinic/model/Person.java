@@ -7,17 +7,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
-@Entity
-@Table(name = "person")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class Person {
 
     public static final int NAME_MAX_LENGTH = 100;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = NAME_MAX_LENGTH)
