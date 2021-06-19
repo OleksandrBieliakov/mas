@@ -34,4 +34,8 @@ public class Procedure {
 
     @OneToMany(mappedBy = "procedure")
     private Set<Medicine> medicines;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="appointment_id", foreignKey = @ForeignKey(name = "fk_procedure_appointment"))
+    private Appointment appointment;
 }

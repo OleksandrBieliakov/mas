@@ -20,4 +20,7 @@ public class Doctor extends MedicalStaff {
     )
     @Size(min = 1)
     private Set<Specialization> specializations;
+
+    @ManyToMany(mappedBy = "doctors")
+    private Set<Appointment> appointments;
 }

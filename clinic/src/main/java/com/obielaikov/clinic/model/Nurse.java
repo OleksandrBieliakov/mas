@@ -20,4 +20,7 @@ public class Nurse extends MedicalStaff {
     )
     @Size(min = 1)
     private Set<Certification> certifications;
+
+    @ManyToMany(mappedBy = "nurses")
+    private Set<Appointment> appointments;
 }

@@ -1,6 +1,7 @@
 package com.obielaikov.clinic.dataloader;
 
 import com.obielaikov.clinic.model.*;
+import com.obielaikov.clinic.model.enums.AppointmentStatus;
 import com.obielaikov.clinic.model.enums.Sex;
 import com.obielaikov.clinic.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private final ProcedureRepository procedureRepository;
     private final ExaminationTypeRepository examinationTypeRepository;
     private final ExaminationRepository examinationRepository;
+    private final RoomRepository roomRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Transactional
     @Override
@@ -171,18 +174,18 @@ public class DatabaseLoader implements CommandLineRunner {
 
         Diagnosis diagnosis1 = new Diagnosis();
         diagnosis1.setTitle("diabetes");
-        diagnosis1.setDateDiagnosed(ZonedDateTime.now().minusYears(1));
+        diagnosis1.setDateDiagnosed(ZonedDateTime.now().minusWeeks(2));
         diagnosis1.setPatient(patient1);
 
         Diagnosis diagnosis2 = new Diagnosis();
         diagnosis2.setTitle("flu");
-        diagnosis2.setDateDiagnosed(ZonedDateTime.now().minusMonths(6));
-        diagnosis2.setDateWithdrawn(ZonedDateTime.now().minusMonths(5));
+        diagnosis2.setDateDiagnosed(ZonedDateTime.now().minusWeeks(2));
+        diagnosis2.setDateWithdrawn(ZonedDateTime.now().minusWeeks(1));
         diagnosis2.setPatient(patient1);
 
         Diagnosis diagnosis3 = new Diagnosis();
         diagnosis3.setTitle("covid-19");
-        diagnosis3.setDateDiagnosed(ZonedDateTime.now().minusMonths(3));
+        diagnosis3.setDateDiagnosed(ZonedDateTime.now().minusDays(4));
         diagnosis3.setPatient(patient2);
 
         diagnosisRepository.saveAll(List.of(diagnosis1, diagnosis2, diagnosis3));
@@ -252,6 +255,126 @@ public class DatabaseLoader implements CommandLineRunner {
         equipmentRepository.saveAll(List.of(equipment1, equipment2));
 
 
+        Room room1 = new Room();
+        room1.setRoomNo("101");
+
+        Room room2 = new Room();
+        room2.setRoomNo("102A");
+
+        Room room3 = new Room();
+        room3.setRoomNo("102B");
+
+        Room room4 = new Room();
+        room4.setRoomNo("204");
+
+        roomRepository.saveAll(List.of(room1, room2, room3, room4));
+
+
+        // booked procedure
+        Appointment appointment1 = new Appointment();
+        appointment1.setRoom(room1);
+        appointment1.setStartDate(ZonedDateTime.now().plusDays(1));
+        appointment1.setEndDate(ZonedDateTime.now().plusDays(1).plusMinutes(30));
+        appointment1.setStatus(AppointmentStatus.BOOKED);
+        appointment1.setDoctors(Set.of(doctor2));
+        appointment1.setNurses(Set.of(nurse3));
+
+        // booked procedure
+        Appointment appointment2 = new Appointment();
+        appointment2.setRoom(room2);
+        appointment2.setStartDate(ZonedDateTime.now().plusDays(1).plusMinutes(30));
+        appointment2.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(1));
+        appointment2.setStatus(AppointmentStatus.BOOKED);
+        appointment2.setNurses(Set.of(nurse3, nurse4));
+
+        // booked procedure
+        Appointment appointment3 = new Appointment();
+        appointment3.setRoom(room3);
+        appointment3.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(1));
+        appointment3.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(1).plusMinutes(30));
+        appointment3.setStatus(AppointmentStatus.BOOKED);
+        appointment3.setNurses(Set.of(nurse3));
+
+        // booked procedure
+        Appointment appointment4 = new Appointment();
+        appointment4.setRoom(room4);
+        appointment4.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(1));
+        appointment4.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(2).plusMinutes(30));
+        appointment4.setStatus(AppointmentStatus.BOOKED);
+        appointment4.setDoctors(Set.of(doctor2, doctor1));
+        appointment4.setNurses(Set.of(nurse1, nurse2));
+
+        //diagnosis 1 and 2
+        Appointment appointment5 = new Appointment();
+        appointment5.setRoom(room1);
+        appointment5.setStartDate(diagnosis1.getDateDiagnosed().minusMinutes(30));
+        appointment5.setEndDate(diagnosis1.getDateDiagnosed());
+        appointment5.setStatus(AppointmentStatus.ATTENDED);
+        appointment5.setDoctors(Set.of(doctor1));
+
+        //diagnosis 3
+        Appointment appointment6 = new Appointment();
+        appointment6.setRoom(room2);
+        appointment6.setStartDate(diagnosis3.getDateDiagnosed().minusMinutes(30));
+        appointment6.setEndDate(diagnosis3.getDateDiagnosed());
+        appointment6.setStatus(AppointmentStatus.ATTENDED);
+        appointment6.setDoctors(Set.of(doctor3));
+
+        // booked examination
+        Appointment appointment7 = new Appointment();
+        appointment7.setRoom(room3);
+        appointment7.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(2));
+        appointment7.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(2).plusMinutes(30));
+        appointment7.setStatus(AppointmentStatus.BOOKED);
+        appointment7.setDoctors(Set.of(doctor2));
+        appointment7.setNurses(Set.of(nurse1, nurse2));
+
+        // booked examination
+        Appointment appointment8 = new Appointment();
+        appointment8.setRoom(room4);
+        appointment8.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(2).plusMinutes(30));
+        appointment8.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(3));
+        appointment8.setStatus(AppointmentStatus.BOOKED);
+        appointment8.setDoctors(Set.of(doctor1, doctor3));
+
+        // available examination
+        Appointment appointment9 = new Appointment();
+        appointment9.setRoom(room1);
+        appointment9.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(3));
+        appointment9.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(3).plusMinutes(30));
+        appointment9.setStatus(AppointmentStatus.AVAILABLE);
+        appointment9.setDoctors(Set.of(doctor4));
+
+        // available examination
+        Appointment appointment10 = new Appointment();
+        appointment10.setRoom(room2);
+        appointment10.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(3).plusMinutes(30));
+        appointment10.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(4));
+        appointment10.setStatus(AppointmentStatus.AVAILABLE);
+        appointment10.setDoctors(Set.of(doctor1, doctor3));
+
+        // available examination
+        Appointment appointment11 = new Appointment();
+        appointment11.setRoom(room3);
+        appointment11.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(4));
+        appointment11.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(4).plusMinutes(30));
+        appointment11.setStatus(AppointmentStatus.AVAILABLE);
+        appointment11.setDoctors(Set.of(doctor1));
+        appointment11.setNurses(Set.of(nurse3, nurse4));
+
+        // available examination
+        Appointment appointment12 = new Appointment();
+        appointment12.setRoom(room4);
+        appointment12.setStartDate(ZonedDateTime.now().plusDays(1).plusHours(4).plusMinutes(30));
+        appointment12.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(5));
+        appointment12.setStatus(AppointmentStatus.AVAILABLE);
+        appointment12.setDoctors(Set.of(doctor3));
+        appointment12.setNurses(Set.of(nurse1, nurse2));
+
+        appointmentRepository.saveAll(List.of(appointment1, appointment2, appointment3, appointment4, appointment5,
+                appointment6, appointment7, appointment8, appointment9, appointment10, appointment11, appointment12));
+
+
         ProcedureType procedureType1 = new ProcedureType();
         procedureType1.setTitle("X-ray");
 
@@ -267,22 +390,30 @@ public class DatabaseLoader implements CommandLineRunner {
         procedureTypeRepository.saveAll(List.of(procedureType1, procedureType2, procedureType3, procedureType4));
 
 
+        // booked
         Procedure procedure1 = new Procedure();
         procedure1.setProcedureType(procedureType1);
         procedure1.setEquipment(Set.of(equipment1));
         procedure1.setTreatment(treatment3);
+        procedure1.setAppointment(appointment1);
 
+        // booked
         Procedure procedure2 = new Procedure();
         procedure2.setProcedureType(procedureType2);
         procedure2.setTreatment(treatment3);
+        procedure2.setAppointment(appointment2);
 
+        // booked
         Procedure procedure3 = new Procedure();
         procedure3.setProcedureType(procedureType3);
-        procedure1.setEquipment(Set.of(equipment1));
+        procedure3.setEquipment(Set.of(equipment1));
+        procedure3.setAppointment(appointment3);
 
+        // booked
         Procedure procedure4 = new Procedure();
         procedure4.setProcedureType(procedureType4);
         procedure4.setEquipment(Set.of(equipment1, equipment2));
+        procedure4.setAppointment(appointment4);
 
         medicine5.setProcedure(procedure4);
         medicineRepository.save(medicine5);
@@ -302,28 +433,47 @@ public class DatabaseLoader implements CommandLineRunner {
         examinationTypeRepository.saveAll(List.of(examinationType1, examinationType2, examinationType3));
 
 
+        // visited
         Examination examination1 = new Examination();
         examination1.setExaminationType(examinationType1);
         examination1.setDiagnoses(Set.of(diagnosis1, diagnosis2));
+        examination1.setAppointment(appointment5);
 
+        // visited
         Examination examination2 = new Examination();
         examination2.setExaminationType(examinationType1);
         examination2.setDiagnoses(Set.of(diagnosis3));
+        examination2.setAppointment(appointment6);
 
+        // booked
         Examination examination3 = new Examination();
         examination3.setExaminationType(examinationType2);
+        examination3.setAppointment(appointment7);
 
+        // booked
         Examination examination4 = new Examination();
-        examination4.setExaminationType(examinationType3);
+        examination4.setExaminationType(examinationType1);
+        examination4.setAppointment(appointment8);
 
+        // available
         Examination examination5 = new Examination();
-        examination5.setExaminationType(examinationType1);
+        examination5.setExaminationType(examinationType3);
+        examination5.setAppointment(appointment9);
 
+        // available
         Examination examination6 = new Examination();
         examination6.setExaminationType(examinationType1);
+        examination6.setAppointment(appointment10);
 
+        // available
         Examination examination7 = new Examination();
         examination7.setExaminationType(examinationType1);
+        examination7.setAppointment(appointment11);
+
+        // available
+        Examination examination8 = new Examination();
+        examination8.setExaminationType(examinationType1);
+        examination8.setAppointment(appointment12);
 
         examinationRepository.saveAll(List.of(examination1, examination2, examination3, examination4, examination5, examination6, examination7));
     }

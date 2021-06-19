@@ -27,4 +27,8 @@ public class Examination {
             inverseJoinColumns = {@JoinColumn(name = "diagnosis_id", foreignKey = @ForeignKey(name = "fk_examination_diagnosis"))}
     )
     private Set<Diagnosis> diagnoses;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="appointment_id", foreignKey = @ForeignKey(name = "fk_examination_appointment"))
+    private Appointment appointment;
 }
