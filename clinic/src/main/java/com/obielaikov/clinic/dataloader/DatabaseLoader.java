@@ -22,6 +22,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private final NurseRepository nurseRepository;
     private final SpecializationRepository specializationRepository;
     private final CertificationRepository certificationRepository;
+    private final DiagnosisRepository diagnosisRepository;
+    private final TreatmentRepository treatmentRepository;
 
     @Transactional
     @Override
@@ -158,5 +160,41 @@ public class DatabaseLoader implements CommandLineRunner {
         nurse4.setCertifications(Set.of(certification4));
 
         nurseRepository.saveAll(List.of(nurse1, nurse2, nurse3, nurse4));
+
+
+        Diagnosis diagnosis1 = new Diagnosis();
+        diagnosis1.setTitle("diabetes");
+        diagnosis1.setDateDiagnosed(ZonedDateTime.now().minusYears(1));
+        diagnosis1.setPatient(patient1);
+
+        Diagnosis diagnosis2 = new Diagnosis();
+        diagnosis2.setTitle("flu");
+        diagnosis2.setDateDiagnosed(ZonedDateTime.now().minusMonths(6));
+        diagnosis2.setDateWithdrawn(ZonedDateTime.now().minusMonths(5));
+        diagnosis2.setPatient(patient1);
+
+        Diagnosis diagnosis3 = new Diagnosis();
+        diagnosis3.setTitle("covid-19");
+        diagnosis3.setDateDiagnosed(ZonedDateTime.now().minusMonths(10));
+        diagnosis3.setDateWithdrawn(ZonedDateTime.now().minusMonths(7));
+        diagnosis3.setPatient(patient2);
+
+        diagnosisRepository.saveAll(List.of(diagnosis1, diagnosis2, diagnosis3));
+
+        Treatment treatment1 = new Treatment();
+        treatment1.setDateStarted(diagnosis1.getDateDiagnosed());
+        treatment1.setDiagnosis(diagnosis1);
+
+        Treatment treatment2 = new Treatment();
+        treatment2.setDateStarted(diagnosis2.getDateDiagnosed());
+        treatment2.setDateEnded(diagnosis2.getDateWithdrawn());
+        treatment2.setDiagnosis(diagnosis2);
+
+        Treatment treatment3 = new Treatment();
+        treatment3.setDateStarted(diagnosis3.getDateDiagnosed());
+        treatment3.setDateEnded(diagnosis3.getDateWithdrawn());
+        treatment3.setDiagnosis(diagnosis3);
+
+        treatmentRepository.saveAll(List.of(treatment1, treatment2, treatment3));
     }
 }
