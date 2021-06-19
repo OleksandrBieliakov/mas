@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="/main.css"/>
 </head>
 <body>
+<div class="container">
 <header>
-    <h1 th:text="${title}">Title</h1>
-    <h2 th:text="${subtitle}">Subtitle</h2>
+    <h1 th:text="${title}" class="title">Title</h1>
     <p th:text="${description}" class="description">Description</p>
 </header>
 <section layout:fragment="content">
     <p>Page content goes here</p>
 </section>
+</div>
 </body>
 </html>

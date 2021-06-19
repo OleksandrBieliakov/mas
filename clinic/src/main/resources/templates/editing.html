@@ -5,8 +5,10 @@
       layout:decorate="~{base}">
 <section layout:fragment="content">
 
-    <h2 th:text="${title}" class="subtitle">Subtitle</h2>
-    <a href="/appointments/editing">Editing</a>
+    <h2 th:text="${parameterSubtitle}" class="subtitle">Subtitle1</h2>
+    <h2 th:text="${patientSubtitle}" class="subtitle">Subtitle2</h2>
+
+    <a href="/appointments/booked">Submit</a>
 
 </section>
 </html>

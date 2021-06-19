@@ -15,18 +15,34 @@ public class AppointmentsController {
         model.addAttribute("title", "Clinic appointments");
     }
 
-    @GetMapping("/available")
-    String getAvailable(Model model) {
-        model.addAttribute("subtitle", "Available appointments");
-        model.addAttribute("description", "Select a suitable appointment time slot...");
-        model.addAttribute("hello", "Another world");
-        return "available";
-    }
     @GetMapping("/booked")
     String getBooked(Model model) {
-        model.addAttribute("subtitle", "Booked appointments");
-        model.addAttribute("description", "Booked appointments list");
-        model.addAttribute("hello", "world");
+        model.addAttribute("title", "Booked appointments");
+        model.addAttribute("description", "Booked appointments list. You can proceed to booking an appointment with patient fom here.");
         return "booked";
+    }
+
+    @GetMapping("/available-search")
+    String getAvailableSearch(Model model) {
+        model.addAttribute("title", "Appointment time slots search");
+        model.addAttribute("description", "Select needed parameters to search for available time slots. Or create a new time slot.");
+        model.addAttribute("subtitle", "Available appointment time slots search parameters");
+        return "available-search";
+    }
+
+    @GetMapping("/available")
+    String getAvailable(Model model) {
+        model.addAttribute("title", "Available appointment time slots");
+        model.addAttribute("description", "Select a suitable appointment time slot to book an appointment with patient and/or to edit appointment details.");
+        return "available";
+    }
+
+    @GetMapping("/editing")
+    String getEditing(Model model) {
+        model.addAttribute("title", "Appointment editing");
+        model.addAttribute("description", "Edit appointment status, type, time, staff, room, equipment and medicine supply. Appoint patient. Click parameters you want to edit.");
+        model.addAttribute("parameterSubtitle", "Parameter");
+        model.addAttribute("patientSubtitle", "Patient");
+        return "editing";
     }
 }

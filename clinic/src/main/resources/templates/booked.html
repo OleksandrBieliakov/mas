@@ -4,7 +4,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{base}">
 <section layout:fragment="content">
-    <a href="/appointments/available">Available</a>
-    <p th:text="${hello}">Hello</p>
+
+    <h2 th:text="${title}" class="subtitle">Subtitle</h2>
+
+    <a href="/appointments/available-search">Appointment booking</a>
+
 </section>
 </html>
