@@ -24,6 +24,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private final CertificationRepository certificationRepository;
     private final DiagnosisRepository diagnosisRepository;
     private final TreatmentRepository treatmentRepository;
+    private final MedicineTypeRepository medicineTypeRepository;
+    private final MedicineRepository medicineRepository;
 
     @Transactional
     @Override
@@ -196,5 +198,44 @@ public class DatabaseLoader implements CommandLineRunner {
         treatment3.setDiagnosis(diagnosis3);
 
         treatmentRepository.saveAll(List.of(treatment1, treatment2, treatment3));
+
+
+        MedicineType medicineType1 = new MedicineType();
+        medicineType1.setTitle("antibiotic");
+
+        MedicineType medicineType2 = new MedicineType();
+        medicineType2.setTitle("aspirin");
+
+        MedicineType medicineType3 = new MedicineType();
+        medicineType3.setTitle("vitamin C");
+
+        MedicineType medicineType4 = new MedicineType();
+        medicineType4.setTitle("painkiller");
+
+        medicineTypeRepository.saveAll(List.of(medicineType1, medicineType2, medicineType3, medicineType4));
+
+
+        Medicine medicine1 = new Medicine();
+        medicine1.setMedicineType(medicineType1);
+        medicine1.setTreatment(treatment2);
+
+        Medicine medicine2 = new Medicine();
+        medicine2.setMedicineType(medicineType1);
+        medicine2.setTreatment(treatment3);
+
+        Medicine medicine3 = new Medicine();
+        medicine3.setMedicineType(medicineType2);
+        medicine3.setTreatment(treatment2);
+
+        Medicine medicine4 = new Medicine();
+        medicine4.setMedicineType(medicineType3);
+        medicine4.setTreatment(treatment3);
+
+        Medicine medicine5 = new Medicine();
+        medicine5.setMedicineType(medicineType4);
+        medicine5.setAmount(2);
+        medicine5.setCost(new BigDecimal(20));
+
+        medicineRepository.saveAll(List.of(medicine1, medicine2, medicine3, medicine4, medicine5));
     }
 }

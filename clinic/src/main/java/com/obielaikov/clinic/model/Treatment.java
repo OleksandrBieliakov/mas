@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "treatment")
@@ -25,4 +26,7 @@ public class Treatment {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="diagnosis_id", foreignKey = @ForeignKey(name = "fk_treatment_diagnosis"))
     private Diagnosis diagnosis;
+
+    @OneToMany(mappedBy = "treatment")
+    private Set<Medicine> medicines;
 }
