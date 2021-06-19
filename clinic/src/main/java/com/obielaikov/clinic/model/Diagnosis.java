@@ -34,4 +34,7 @@ public class Diagnosis {
 
     @OneToMany(mappedBy = "diagnosis")
     private Set<Treatment> treatments;
+
+    @ManyToMany(mappedBy = "diagnoses")
+    private Set<Examination> examinations;
 }

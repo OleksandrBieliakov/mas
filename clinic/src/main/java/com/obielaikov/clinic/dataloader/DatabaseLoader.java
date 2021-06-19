@@ -29,6 +29,8 @@ public class DatabaseLoader implements CommandLineRunner {
     private final EquipmentRepository equipmentRepository;
     private final ProcedureTypeRepository procedureTypeRepository;
     private final ProcedureRepository procedureRepository;
+    private final ExaminationTypeRepository examinationTypeRepository;
+    private final ExaminationRepository examinationRepository;
 
     @Transactional
     @Override
@@ -286,5 +288,43 @@ public class DatabaseLoader implements CommandLineRunner {
         medicineRepository.save(medicine5);
 
         procedureRepository.saveAll(List.of(procedure1, procedure2, procedure3, procedure4));
+
+
+        ExaminationType examinationType1 = new ExaminationType();
+        examinationType1.setTitle("general");
+
+        ExaminationType examinationType2 = new ExaminationType();
+        examinationType2.setTitle("neurological");
+
+        ExaminationType examinationType3 = new ExaminationType();
+        examinationType3.setTitle("dermatological");
+
+        examinationTypeRepository.saveAll(List.of(examinationType1, examinationType2, examinationType3));
+
+
+        Examination examination1 = new Examination();
+        examination1.setExaminationType(examinationType1);
+        examination1.setDiagnoses(Set.of(diagnosis1, diagnosis2));
+
+        Examination examination2 = new Examination();
+        examination2.setExaminationType(examinationType1);
+        examination2.setDiagnoses(Set.of(diagnosis3));
+
+        Examination examination3 = new Examination();
+        examination3.setExaminationType(examinationType2);
+
+        Examination examination4 = new Examination();
+        examination4.setExaminationType(examinationType3);
+
+        Examination examination5 = new Examination();
+        examination5.setExaminationType(examinationType1);
+
+        Examination examination6 = new Examination();
+        examination6.setExaminationType(examinationType1);
+
+        Examination examination7 = new Examination();
+        examination7.setExaminationType(examinationType1);
+
+        examinationRepository.saveAll(List.of(examination1, examination2, examination3, examination4, examination5, examination6, examination7));
     }
 }
