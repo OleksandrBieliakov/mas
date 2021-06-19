@@ -26,6 +26,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TreatmentRepository treatmentRepository;
     private final MedicineTypeRepository medicineTypeRepository;
     private final MedicineRepository medicineRepository;
+    private final EquipmentRepository equipmentRepository;
+    private final ProcedureTypeRepository procedureTypeRepository;
+    private final ProcedureRepository procedureRepository;
 
     @Transactional
     @Override
@@ -177,8 +180,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         Diagnosis diagnosis3 = new Diagnosis();
         diagnosis3.setTitle("covid-19");
-        diagnosis3.setDateDiagnosed(ZonedDateTime.now().minusMonths(10));
-        diagnosis3.setDateWithdrawn(ZonedDateTime.now().minusMonths(7));
+        diagnosis3.setDateDiagnosed(ZonedDateTime.now().minusMonths(3));
         diagnosis3.setPatient(patient2);
 
         diagnosisRepository.saveAll(List.of(diagnosis1, diagnosis2, diagnosis3));
@@ -194,7 +196,6 @@ public class DatabaseLoader implements CommandLineRunner {
 
         Treatment treatment3 = new Treatment();
         treatment3.setDateStarted(diagnosis3.getDateDiagnosed());
-        treatment3.setDateEnded(diagnosis3.getDateWithdrawn());
         treatment3.setDiagnosis(diagnosis3);
 
         treatmentRepository.saveAll(List.of(treatment1, treatment2, treatment3));
@@ -236,6 +237,54 @@ public class DatabaseLoader implements CommandLineRunner {
         medicine5.setAmount(2);
         medicine5.setCost(new BigDecimal(20));
 
-        medicineRepository.saveAll(List.of(medicine1, medicine2, medicine3, medicine4, medicine5));
+        medicineRepository.saveAll(List.of(medicine1, medicine2, medicine3, medicine4));
+
+
+        Equipment equipment1 = new Equipment();
+        equipment1.setTitle("X-ray machine");
+        equipment1.setPricePerProcedure(new BigDecimal(40));
+
+        Equipment equipment2 = new Equipment();
+        equipment2.setTitle("surgeon saw");
+
+        equipmentRepository.saveAll(List.of(equipment1, equipment2));
+
+
+        ProcedureType procedureType1 = new ProcedureType();
+        procedureType1.setTitle("X-ray");
+
+        ProcedureType procedureType2 = new ProcedureType();
+        procedureType2.setTitle("injection");
+
+        ProcedureType procedureType3 = new ProcedureType();
+        procedureType3.setTitle("bandage placement");
+
+        ProcedureType procedureType4 = new ProcedureType();
+        procedureType4.setTitle("amputation");
+
+        procedureTypeRepository.saveAll(List.of(procedureType1, procedureType2, procedureType3, procedureType4));
+
+
+        Procedure procedure1 = new Procedure();
+        procedure1.setProcedureType(procedureType1);
+        procedure1.setEquipment(Set.of(equipment1));
+        procedure1.setTreatment(treatment3);
+
+        Procedure procedure2 = new Procedure();
+        procedure2.setProcedureType(procedureType2);
+        procedure2.setTreatment(treatment3);
+
+        Procedure procedure3 = new Procedure();
+        procedure3.setProcedureType(procedureType3);
+        procedure1.setEquipment(Set.of(equipment1));
+
+        Procedure procedure4 = new Procedure();
+        procedure4.setProcedureType(procedureType4);
+        procedure4.setEquipment(Set.of(equipment1, equipment2));
+
+        medicine5.setProcedure(procedure4);
+        medicineRepository.save(medicine5);
+
+        procedureRepository.saveAll(List.of(procedure1, procedure2, procedure3, procedure4));
     }
 }

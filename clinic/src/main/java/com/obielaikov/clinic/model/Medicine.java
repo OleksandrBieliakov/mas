@@ -31,4 +31,8 @@ public class Medicine {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="treatment_id", foreignKey = @ForeignKey(name = "fk_medicine_treatment"))
     private Treatment treatment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="procedure_id", foreignKey = @ForeignKey(name = "fk_medicine_procedure"))
+    private Procedure procedure;
 }

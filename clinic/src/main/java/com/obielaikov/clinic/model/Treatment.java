@@ -29,4 +29,7 @@ public class Treatment {
 
     @OneToMany(mappedBy = "treatment")
     private Set<Medicine> medicines;
+
+    @OneToMany(mappedBy = "treatment")
+    private Set<Procedure> procedures;
 }
