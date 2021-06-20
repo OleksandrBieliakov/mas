@@ -5,10 +5,7 @@ import com.obieliakov.clinic.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ public class AppointmentsController {
 
     @GetMapping("/booked")
     String getBooked(Model model) {
-        //model.addAttribute("title", "Booked appointments");
+        model.addAttribute("title", "Booked appointments");
         model.addAttribute("description", "Booked appointments list. You can proceed to booking an appointment with patient fom here.");
         model.addAttribute("appointments", appointmentService.listBooked());
         return "booked";
@@ -57,12 +54,10 @@ public class AppointmentsController {
         return "available";
     }
 
-    @GetMapping("/editing")
-    String getEditing(Model model) {
+    @GetMapping("/{id}/edit")
+    String getEditing(Model model, @PathVariable Long id) {
         model.addAttribute("title", "Appointment editing");
         model.addAttribute("description", "Edit appointment status, type, time, staff, room, equipment and medicine supply. Appoint patient. Click parameters you want to edit.");
-        model.addAttribute("parameterSubtitle", "Parameter");
-        model.addAttribute("patientSubtitle", "Patient");
         return "editing";
     }
 

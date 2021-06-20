@@ -95,7 +95,7 @@ public class AppointmentService {
         log.debug(appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.AVAILABLE).size() + "");
 
         if(isExamination && doctorId != null) {
-            return appointmentRepository.queryByExaminationTypeAndDoctorAndStartTimeRangeAndStatus(appoinmentTypeId, doctorId, fromZonedDateTime, toZonedDateTime, AppointmentStatus.AVAILABLE);
+            return appointmentRepository.queryByExaminationTypeAndDoctor(appoinmentTypeId, doctorId, fromZonedDateTime, toZonedDateTime, AppointmentStatus.AVAILABLE);
         }
         return appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.AVAILABLE);
     }

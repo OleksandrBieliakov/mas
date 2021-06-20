@@ -20,7 +20,7 @@
             </thead>
             <tbody>
             <tr th:each="appointment : ${appointments}">
-                <td th:text="${#temporals.format(appointment.startDate, 'dd.MM.yyyy HH:mm')}">23.06.2021 15:30</td>
+                <td><a th:href="'/appointments/' + ${appointment.id} + '/edit'" th:text="${#temporals.format(appointment.startDate, 'dd.MM.yyyy HH:mm')}">23.06.2021 15:30</a> </td>
                 <td th:text="${#temporals.format(appointment.endDate, 'HH:mm')}">23.06.2021 16:30</td>
                 <td><p th:each="doctor : ${appointment.doctors}"><span th:text="${doctor.firstName}" th:remove="tag">Severus</span>
                     <span th:text="${doctor.lastName}" th:remove="tag">Snape</span></p></td>
@@ -35,8 +35,6 @@
             </tbody>
         </table>
     </div>
-
-    <a href="/appointments/editing">Editing</a>
 
 </section>
 </html>
