@@ -9,4 +9,10 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:clinic
+    #    url: jdbc:h2:mem:clinic
+    url: jdbc:h2:file:./data/clinic
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
