@@ -134,4 +134,12 @@ public class AppointmentService {
 
         return query.fetch();
     }
+
+    public void book(Long appointmentId, Long patientId) {
+        Appointment appointment = appointmentRepository.getById(appointmentId);
+        Patient patient = patientRepository.getById(patientId);
+        appointment.setPatient(patient);
+        appointment.setStatus(AppointmentStatus.BOOKED);
+        appointmentRepository.save(appointment);
+    }
 }

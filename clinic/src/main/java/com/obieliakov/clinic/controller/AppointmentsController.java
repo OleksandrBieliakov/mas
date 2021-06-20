@@ -3,6 +3,8 @@ package com.obieliakov.clinic.controller;
 import com.obieliakov.clinic.model.Appointment;
 import com.obieliakov.clinic.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
 public class AppointmentsController {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final AppointmentService appointmentService;
 
@@ -61,6 +65,13 @@ public class AppointmentsController {
         model.addAttribute("appointment", appointmentService.findById(id));
         model.addAttribute("patients", appointmentService.listAllPatients());
         return "booking";
+    }
+
+    @PostMapping("/{id}/book")
+    String submitBooking(Model model, @PathVariable Long id, @ModelAttribute("patient") Long patientId) {
+        log.debug("submitBooking id {}, patientId {}", id, patientId);
+        appointmentService.book(id, patientId);
+        return "redirect:/appointments/booked";
     }
 
     @GetMapping("/creation")

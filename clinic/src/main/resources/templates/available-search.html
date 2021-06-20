@@ -10,7 +10,7 @@
     <form id="search-form" class="search-form" action="/appointments/available">
         <div class="form-item">
             <label for="type" class="parameter-label">Appointment type</label>
-            <select id="type" name="type">
+            <select id="type" name="type" class="input">
                 <option th:each="examinationType : ${examinationTypes}"
                         th:value="${'examinationTypeId ' + examinationType.id}"
                         th:text="${examinationType.title + ' examination'}"></option>
@@ -21,7 +21,7 @@
         </div>
         <div class="form-item">
             <label for="doctor" class="parameter-label">Doctor</label>
-            <select id="doctor" name="doctor">
+            <select id="doctor" name="doctor" class="input">
                 <option th:value="null" th:text="Any"></option>
                 <option th:each="doctor : ${doctors}"
                         th:value="${doctor.id}"
@@ -30,14 +30,14 @@
         </div>
         <div class="form-item">
             <label for="from" class="parameter-label">Date time from</label>
-            <input type="datetime-local" id="from" name="from"
+            <input type="datetime-local" id="from" name="from" class="input"
                    th:value="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
                    th:min="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
                    th:max="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}">
         </div>
         <div class="form-item">
             <label for="to" class="parameter-label">Date time to</label>
-            <input type="datetime-local" id="to" name="to"
+            <input type="datetime-local" id="to" name="to" class="input"
                    th:value="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}"
                    th:min="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
                    th:max="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}">

@@ -5,28 +5,74 @@
       layout:decorate="~{base}">
 <section layout:fragment="content">
 
-    <form id="patient-form" class="search-form" action="/appointments/booked">
-        <div class="form-item">
+    <form id="patient-form" class="search-form" th:action="'/appointments/' + ${appointment.id} + '/book'" method="post">
+        <div class="patient-form-item">
             <label for="patient" class="parameter-label patient-label">Patient</label>
-            <select id="patient" name="patient">
+            <select id="patient" name="patient" class="patient">
                 <option th:each="patient : ${patients}"
                         th:value="${patient.id}"
                         th:text="${patient.firstName + ' ' + patient.lastName}"></option>
             </select>
+            <div class="buttons-container">
+                <button type="submit" form="patient-form" class="button action-button patient-submit">Submit</button>
+            </div>
         </div>
     </form>
+
+    <div class="delimiter"></div>
 
     <h2 class="subtitle">Appointment details</h2>
 
     <div class="parameter-container">
         <p class="parameter-label">Type</p>
         <div class="values-container">
-            <p class="value" th:text="${appointment.status}">Examination</p>
+            <p class="value appointment-type" th:text="${appointment.examination != null ?
+                appointment.examination.examinationType.title + ' examination' :
+                appointment.procedure.procedureType.title + ' procedure'}">Examination</p>
         </div>
     </div>
 
-    <div class="buttons-container">
-        <button type="submit" form="patient-form" class="button action-button">Submit</button>
+    <div class="parameter-container">
+        <p class="parameter-label">Start date time</p>
+        <div class="values-container">
+            <p class="value appointment-type"
+               th:text="${#temporals.format(appointment.startDate, 'dd.MM.yyyy HH:mm')}">23.06.2021 15:30</p>
+        </div>
     </div>
+
+    <div class="parameter-container">
+        <p class="parameter-label">End date time</p>
+        <div class="values-container">
+            <p class="value appointment-type"
+               th:text="${#temporals.format(appointment.endDate, 'dd.MM.yyyy HH:mm')}">23.06.2021 15:30</p>
+        </div>
+    </div>
+
+    <div class="parameter-container">
+        <p class="parameter-label">Room No</p>
+        <div class="values-container">
+            <p class="value appointment-type"
+               th:text="${appointment.room.roomNo}">101C</p>
+        </div>
+    </div>
+
+    <div class="parameter-container">
+        <p class="parameter-label">Doctors</p>
+        <div class="values-container">
+            <p class="value appointment-type"
+               th:each="doctor : ${appointment.doctors}"><span th:text="${doctor.firstName}" th:remove="tag">Severus</span>
+                <span th:text="${doctor.lastName}" th:remove="tag">Snape</span></p>
+        </div>
+    </div>
+
+    <div class="parameter-container">
+        <p class="parameter-label">Nurses</p>
+        <div class="values-container">
+            <p class="value appointment-type"
+               th:each="nurse : ${appointment.nurses}"><span th:text="${nurse.firstName}" th:remove="tag">Severus</span>
+                <span th:text="${nurse.lastName}" th:remove="tag">Snape</span></p>
+        </div>
+    </div>
+
 </section>
 </html>

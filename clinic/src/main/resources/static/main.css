@@ -107,3 +107,38 @@
     font-weight: bold;
     font-size: large;
 }
+
+.delimiter {
+    width: 100%;
+    height: 20px;
+    background: #8664c3;
+    margin-bottom: 40px;
+}
+
+.patient-form-item {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 20% 15% 65%;
+    margin-bottom: 0;
+}
+
+.patient {
+    height: fit-content;
+    padding: 10px;
+    width: max-content;
+}
+
+.patient-submit {
+    margin-right: 0;
+}
+
+.input {
+    height: fit-content;
+    padding: 10px;
+}
+
+.values-container {
+    color: black;
+    background: #cccccc;
+    padding-left: 20px;
+}
