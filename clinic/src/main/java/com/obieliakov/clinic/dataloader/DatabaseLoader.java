@@ -483,6 +483,6 @@ public class DatabaseLoader implements CommandLineRunner {
         examination8.setExaminationType(examinationType1);
         examination8.setAppointment(appointment12);
 
-        examinationRepository.saveAll(List.of(examination1, examination2, examination3, examination4, examination5, examination6, examination7));
+        examinationRepository.saveAll(List.of(examination1, examination2, examination3, examination4, examination5, examination6, examination7, examination8));
     }
 }

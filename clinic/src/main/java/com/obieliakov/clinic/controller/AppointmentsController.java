@@ -1,5 +1,6 @@
 package com.obieliakov.clinic.controller;
 
+import com.obieliakov.clinic.model.Appointment;
 import com.obieliakov.clinic.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/appointments")
@@ -42,11 +44,16 @@ public class AppointmentsController {
     @GetMapping("/available")
     String getAvailable(@RequestParam(name = "type", required = false) String type,
                         @RequestParam(name = "doctor", required = false) Long doctorId,
-                        //todo: add all parameters
+                        @RequestParam(name = "from", required = false) String from,
+                        @RequestParam(name = "to", required = false) String to,
                         Model model) {
         model.addAttribute("title", "Available appointment time slots");
         model.addAttribute("description", "Select a suitable appointment time slot to book an appointment with patient and/or to edit appointment details.");
-        model.addAttribute("appointments", appointmentService.listAvailable(type, doctorId));
+        try {
+            model.addAttribute("appointments", appointmentService.listAvailable(type, doctorId, from, to));
+        } catch (Exception exception) {
+            model.addAttribute("appointments", new ArrayList<Appointment>());
+        }
         return "available";
     }
 

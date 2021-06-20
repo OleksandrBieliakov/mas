@@ -22,6 +22,7 @@
         <div class="form-item">
             <label for="doctor" class="parameter-label">Doctor</label>
             <select id="doctor" name="doctor">
+                <option th:value="null" th:text="Any"></option>
                 <option th:each="doctor : ${doctors}"
                         th:value="${doctor.id}"
                         th:text="${doctor.firstName + ' ' + doctor.lastName}"></option>
