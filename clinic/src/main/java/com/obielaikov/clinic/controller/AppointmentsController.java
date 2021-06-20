@@ -1,5 +1,7 @@
 package com.obielaikov.clinic.controller;
 
+import com.obielaikov.clinic.service.AppointmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/appointments")
+@RequiredArgsConstructor
 public class AppointmentsController {
+
+    private final AppointmentService appointmentService;
 
     @ModelAttribute
     public void addAttributes(Model model) {
@@ -19,6 +24,7 @@ public class AppointmentsController {
     String getBooked(Model model) {
         model.addAttribute("title", "Booked appointments");
         model.addAttribute("description", "Booked appointments list. You can proceed to booking an appointment with patient fom here.");
+        model.addAttribute("appointments", appointmentService.listBooked());
         return "booked";
     }
 

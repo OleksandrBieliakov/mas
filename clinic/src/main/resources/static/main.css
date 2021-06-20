@@ -26,19 +26,49 @@
     font-weight: bold;
     font-size: large;
     padding-left: 50px;
+    margin-bottom: 30px;
 }
 
 .button {
     font-size: large;
     padding: 16px;
     border: 0;
+    margin: 0 50px 20px 50px;
+}
+.buttons-container {
+    display: flex;
+    width: available;
 }
 
 .navigation-button {
     color: black;
     background: #cccccc;
 }
+
 .action-button {
     color: white;
     background: #0078d7;
+}
+
+.table-container {
+    margin: 30px 50px 15px 50px;
+}
+
+.table {
+    border-collapse: collapse;
+    border-style: hidden;
+    width: 100%;
+}
+
+.table tr, .table th {
+    border: 2px solid #cccccc;
+    padding: 15px;
+}
+
+.table td {
+    padding-left: 10px;
+}
+
+.appointment-type {
+    text-transform: capitalize;
 }
