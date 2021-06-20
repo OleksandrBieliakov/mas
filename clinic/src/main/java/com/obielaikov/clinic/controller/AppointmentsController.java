@@ -17,14 +17,9 @@ public class AppointmentsController {
 
     private final AppointmentService appointmentService;
 
-    @ModelAttribute
-    public void addAttributes(Model model) {
-        model.addAttribute("title", "Clinic appointments");
-    }
-
     @GetMapping("/booked")
     String getBooked(Model model) {
-        model.addAttribute("title", "Booked appointments");
+        //model.addAttribute("title", "Booked appointments");
         model.addAttribute("description", "Booked appointments list. You can proceed to booking an appointment with patient fom here.");
         model.addAttribute("appointments", appointmentService.listBooked());
         return "booked";
@@ -57,5 +52,11 @@ public class AppointmentsController {
         model.addAttribute("parameterSubtitle", "Parameter");
         model.addAttribute("patientSubtitle", "Patient");
         return "editing";
+    }
+
+    // example of how to add attributes to view model by default
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute("title", "Clinic appointments");
     }
 }

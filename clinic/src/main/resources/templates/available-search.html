@@ -7,7 +7,7 @@
 
     <h2 th:text="${subtitle}" class="subtitle">Subtitle</h2>
 
-    <form class="search-form">
+    <form id="search-form" class="search-form" action="/appointments/available">
         <label for="appointment-type" class="parameter-label">Appointment type</label>
         <select id="appointment-type" name="appointment-type">
             <option th:each="examinationType : ${examinationTypes}"
@@ -25,18 +25,21 @@
                     th:text="${doctor.firstName + ' ' + doctor.lastName}"></option>
         </select>
 
-        <label for="appointment-start-from">Choose a time for your appointment:</label>
-
+        <label for="appointment-start-from" class="parameter-label">Date time from</label>
         <input type="datetime-local" id="appointment-start-from" name="appointment-start-from"
+               th:value="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
+               th:min="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
+               th:max="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}">
 
-               value="2018-06-12T19:30"
-               th:min="${#temporals.formatISO(currentTime)}"
-               th:max="${#temporals.formatISO(maxTime)}">
+        <label for="appointment-start-to" class="parameter-label">Date time to</label>
+        <input type="datetime-local" id="appointment-start-to" name="appointment-start-to"
+               th:value="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}"
+               th:min="${#temporals.formatISO(currentTime).substring(0, #temporals.formatISO(currentTime).lastIndexOf(':'))}"
+               th:max="${#temporals.formatISO(maxTime).substring(0, #temporals.formatISO(maxTime).lastIndexOf(':'))}">
 
-        <p th:text="${#temporals.formatISO(currentTime)}"></p>
     </form>
 
-    <button type="button" class="button action-button" onclick="location.href='/appointments/available'">Search</button>
+    <button type="submit" form="search-form" class="button action-button">Search</button>
 
 </section>
 </html>
