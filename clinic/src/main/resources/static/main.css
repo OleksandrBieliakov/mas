@@ -33,7 +33,7 @@
     font-size: large;
     padding: 16px;
     border: 0;
-    margin: 0 50px 20px 50px;
+    margin: 0 50px 20px 0px;
 }
 
 .buttons-container {
@@ -43,6 +43,11 @@
 }
 
 .navigation-button {
+    color: black;
+    background: #cccccc;
+}
+
+.edit-button {
     color: black;
     background: #cccccc;
 }
@@ -88,4 +93,17 @@
     width: 60%;
     grid-template-columns: 50% 50%;
     margin-bottom: 50px;
+}
+
+.parameter-container {
+    display: grid;
+    width: 60%;
+    grid-template-columns: 50% 50%;
+    margin-bottom: 15px;
+    margin-left: 50px;
+}
+
+.patient-label {
+    font-weight: bold;
+    font-size: large;
 }

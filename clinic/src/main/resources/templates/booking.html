@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+<section layout:fragment="content">
+
+    <form id="patient-form" class="search-form" action="/appointments/booked">
+        <div class="form-item">
+            <label for="patient" class="parameter-label patient-label">Patient</label>
+            <select id="patient" name="patient">
+                <option th:each="patient : ${patients}"
+                        th:value="${patient.id}"
+                        th:text="${patient.firstName + ' ' + patient.lastName}"></option>
+            </select>
+        </div>
+    </form>
+
+    <h2 class="subtitle">Appointment details</h2>
+
+    <div class="parameter-container">
+        <p class="parameter-label">Type</p>
+        <div class="values-container">
+            <p class="value" th:text="${appointment.status}">Examination</p>
+        </div>
+    </div>
+
+    <div class="buttons-container">
+        <button type="submit" form="patient-form" class="button action-button">Submit</button>
+    </div>
+</section>
+</html>

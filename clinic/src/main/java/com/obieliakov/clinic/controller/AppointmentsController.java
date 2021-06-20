@@ -45,7 +45,7 @@ public class AppointmentsController {
                         @RequestParam(name = "to", required = false) String to,
                         Model model) {
         model.addAttribute("title", "Available appointment time slots");
-        model.addAttribute("description", "Select a suitable appointment time slot to book an appointment with patient and/or to edit appointment details.");
+        model.addAttribute("description", "Select a suitable appointment time slot to book an appointment with patient. Or create a new time slot.");
         try {
             model.addAttribute("appointments", appointmentService.listAvailable(type, doctorId, from, to));
         } catch (Exception exception) {
@@ -54,11 +54,20 @@ public class AppointmentsController {
         return "available";
     }
 
-    @GetMapping("/{id}/edit")
-    String getEditing(Model model, @PathVariable Long id) {
-        model.addAttribute("title", "Appointment editing");
-        model.addAttribute("description", "Edit appointment status, type, time, staff, room, equipment and medicine supply. Appoint patient. Click parameters you want to edit.");
-        return "editing";
+    @GetMapping("/{id}/book")
+    String getBooking(Model model, @PathVariable Long id) {
+        model.addAttribute("title", "Appointment booking");
+        model.addAttribute("description", "Select patient for the appointment booking.");
+        model.addAttribute("appointment", appointmentService.findById(id));
+        model.addAttribute("patients", appointmentService.listAllPatients());
+        return "booking";
+    }
+
+    @GetMapping("/creation")
+    String getCreation(Model model) {
+        model.addAttribute("title", "New time slot creation");
+        model.addAttribute("description", "Select parameters of a new time slot for an appointment.");
+        return "creation";
     }
 
     // example of how to add attributes to view model by default

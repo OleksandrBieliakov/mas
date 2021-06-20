@@ -1,14 +1,8 @@
 package com.obieliakov.clinic.service;
 
-import com.obieliakov.clinic.model.Appointment;
-import com.obieliakov.clinic.model.Doctor;
-import com.obieliakov.clinic.model.ExaminationType;
-import com.obieliakov.clinic.model.ProcedureType;
+import com.obieliakov.clinic.model.*;
 import com.obieliakov.clinic.model.enums.AppointmentStatus;
-import com.obieliakov.clinic.repository.AppointmentRepository;
-import com.obieliakov.clinic.repository.DoctorRepository;
-import com.obieliakov.clinic.repository.ExaminationTypeRepository;
-import com.obieliakov.clinic.repository.ProcedureTypeRepository;
+import com.obieliakov.clinic.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +25,11 @@ public class AppointmentService {
     private final ExaminationTypeRepository examinationTypeRepository;
     private final ProcedureTypeRepository procedureTypeRepository;
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
+
+    public Appointment findById(Long id) {
+        return appointmentRepository.getById(id);
+    }
 
     public List<Appointment> listBooked() {
         return appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.BOOKED);
@@ -46,6 +45,10 @@ public class AppointmentService {
 
     public List<Doctor> listAllDoctors() {
         return doctorRepository.findAll();
+    }
+
+    public List<Patient> listAllPatients() {
+        return patientRepository.findAll();
     }
 
     public List<Appointment> listAvailable(String type, Long doctorId, String from, String to) throws Exception{
