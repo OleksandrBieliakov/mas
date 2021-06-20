@@ -32,27 +32,22 @@ public class AppointmentService {
     private final ProcedureTypeRepository procedureTypeRepository;
     private final DoctorRepository doctorRepository;
 
-    @Transactional(readOnly = true)
     public List<Appointment> listBooked() {
         return appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.BOOKED);
     }
 
-    @Transactional(readOnly = true)
     public List<ExaminationType> listAllExaminationTypes() {
         return examinationTypeRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public List<ProcedureType> listAllProcedureTypes() {
         return procedureTypeRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public List<Doctor> listAllDoctors() {
         return doctorRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public List<Appointment> listAvailable(String type, Long doctorId, String from, String to) throws Exception{
         log.debug("List available by type {}, doctor id {}, from {}, to {}", type, doctorId, from, to);
 
