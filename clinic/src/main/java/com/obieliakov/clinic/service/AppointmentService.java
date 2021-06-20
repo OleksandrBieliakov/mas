@@ -3,16 +3,28 @@ package com.obieliakov.clinic.service;
 import com.obieliakov.clinic.model.*;
 import com.obieliakov.clinic.model.enums.AppointmentStatus;
 import com.obieliakov.clinic.repository.*;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static com.obieliakov.clinic.model.QAppointment.appointment;
+import static com.obieliakov.clinic.model.QDoctor.doctor;
+import static com.obieliakov.clinic.model.QExamination.examination;
+import static com.obieliakov.clinic.model.QProcedure.procedure;
+import static com.obieliakov.clinic.model.enums.AppointmentStatus.AVAILABLE;
+import static com.querydsl.core.types.Order.ASC;
 
 @Service
 @Transactional
@@ -26,6 +38,9 @@ public class AppointmentService {
     private final ProcedureTypeRepository procedureTypeRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     public Appointment findById(Long id) {
         return appointmentRepository.getById(id);
@@ -89,12 +104,34 @@ public class AppointmentService {
             throw new IllegalArgumentException("Illegal time range, 'from' must be before 'to'.");
         }
 
-        log.debug("List available from {}, to {}", fromZonedDateTime, toZonedDateTime);
-        log.debug(appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.AVAILABLE).size() + "");
+        JPAQuery<Appointment> query = new JPAQuery<>(entityManager);
 
-        if(isExamination && doctorId != null) {
-            return appointmentRepository.queryByExaminationTypeAndDoctor(appoinmentTypeId, doctorId, fromZonedDateTime, toZonedDateTime, AppointmentStatus.AVAILABLE);
+        query.from(appointment);
+
+        BooleanBuilder bb = new BooleanBuilder();
+
+        if (isExamination) {
+            query.join(appointment.examination, examination);
+            bb.and(examination.examinationType.id.eq(appoinmentTypeId));
+        } else {
+            query.join(appointment.procedure, procedure);
+            bb.and(procedure.procedureType.id.eq(appoinmentTypeId));
         }
-        return appointmentRepository.findByStatusOrderByStartDate(AppointmentStatus.AVAILABLE);
+
+        if (doctorId != null) {
+            query.join(appointment.doctors, doctor);
+            bb.and(doctor.id.eq(doctorId));
+        }
+
+        bb.and(appointment.startDate.goe(fromZonedDateTime));
+        bb.and(appointment.startDate.loe(toZonedDateTime));
+
+        bb.and(appointment.status.eq(AVAILABLE));
+
+        query.where(bb.getValue());
+
+        query.orderBy(new OrderSpecifier<>(ASC, appointment.startDate));
+
+        return query.fetch();
     }
 }
