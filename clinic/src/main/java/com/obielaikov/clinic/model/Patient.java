@@ -20,4 +20,7 @@ public class Patient extends Person {
 
     @OneToMany(mappedBy = "patient")
     private Set<Diagnosis> diagnoses;
+
+    @OneToMany(mappedBy = "patient")
+    private Set<Appointment> appointments;
 }

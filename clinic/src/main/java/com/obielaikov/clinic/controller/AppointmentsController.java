@@ -22,7 +22,7 @@ public class AppointmentsController {
         return "booked";
     }
 
-    @GetMapping("/available-search")
+    @GetMapping("/available/search")
     String getAvailableSearch(Model model) {
         model.addAttribute("title", "Appointment time slots search");
         model.addAttribute("description", "Select needed parameters to search for available time slots. Or create a new time slot.");

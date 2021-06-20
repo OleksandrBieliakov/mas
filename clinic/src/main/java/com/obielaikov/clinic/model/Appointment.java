@@ -38,6 +38,10 @@ public class Appointment {
     @JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "fk_appointment_room"))
     private Room room;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="patient_id", foreignKey = @ForeignKey(name = "fk_appointment_patient"))
+    private Patient patient;
+
     @ManyToMany
     @JoinTable(
             name = "appointment_doctor",

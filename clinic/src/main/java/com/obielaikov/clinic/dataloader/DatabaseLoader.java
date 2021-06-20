@@ -278,6 +278,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment1.setStatus(AppointmentStatus.BOOKED);
         appointment1.setDoctors(Set.of(doctor2));
         appointment1.setNurses(Set.of(nurse3));
+        appointment1.setPatient(patient2);
 
         // booked procedure
         Appointment appointment2 = new Appointment();
@@ -286,6 +287,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment2.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(1));
         appointment2.setStatus(AppointmentStatus.BOOKED);
         appointment2.setNurses(Set.of(nurse3, nurse4));
+        appointment2.setPatient(patient2);
 
         // booked procedure
         Appointment appointment3 = new Appointment();
@@ -294,6 +296,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment3.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(1).plusMinutes(30));
         appointment3.setStatus(AppointmentStatus.BOOKED);
         appointment3.setNurses(Set.of(nurse3));
+        appointment3.setPatient(patient3);
 
         // booked procedure
         Appointment appointment4 = new Appointment();
@@ -303,6 +306,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment4.setStatus(AppointmentStatus.BOOKED);
         appointment4.setDoctors(Set.of(doctor2, doctor1));
         appointment4.setNurses(Set.of(nurse1, nurse2));
+        appointment4.setPatient(patient4);
 
         //diagnosis 1 and 2
         Appointment appointment5 = new Appointment();
@@ -311,6 +315,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment5.setEndDate(diagnosis1.getDateDiagnosed());
         appointment5.setStatus(AppointmentStatus.ATTENDED);
         appointment5.setDoctors(Set.of(doctor1));
+        appointment5.setPatient(patient1);
 
         //diagnosis 3
         Appointment appointment6 = new Appointment();
@@ -319,6 +324,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment6.setEndDate(diagnosis3.getDateDiagnosed());
         appointment6.setStatus(AppointmentStatus.ATTENDED);
         appointment6.setDoctors(Set.of(doctor3));
+        appointment6.setPatient(patient2);
 
         // booked examination
         Appointment appointment7 = new Appointment();
@@ -328,6 +334,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment7.setStatus(AppointmentStatus.BOOKED);
         appointment7.setDoctors(Set.of(doctor2));
         appointment7.setNurses(Set.of(nurse1, nurse2));
+        appointment7.setPatient(patient3);
 
         // booked examination
         Appointment appointment8 = new Appointment();
@@ -336,6 +343,7 @@ public class DatabaseLoader implements CommandLineRunner {
         appointment8.setEndDate(ZonedDateTime.now().plusDays(1).plusHours(3));
         appointment8.setStatus(AppointmentStatus.BOOKED);
         appointment8.setDoctors(Set.of(doctor1, doctor3));
+        appointment8.setPatient(patient1);
 
         // available examination
         Appointment appointment9 = new Appointment();
