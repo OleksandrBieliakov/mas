@@ -7,6 +7,35 @@
 
     <h2 th:text="${subtitle}" class="subtitle">Subtitle</h2>
 
+    <form class="search-form">
+        <label for="appointment-type" class="parameter-label">Appointment type</label>
+        <select id="appointment-type" name="appointment-type">
+            <option th:each="examinationType : ${examinationTypes}"
+                    th:value="${'examinationTypeId ' + examinationType.id}"
+                    th:text="${examinationType.title + ' examination'}"></option>
+            <option th:each="procedureType : ${procedureTypes}"
+                    th:value="${'procedureTypeId ' + procedureType.id}"
+                    th:text="${procedureType.title + ' procedure'}"></option>
+        </select>
+
+        <label for="appointment-doctor" class="parameter-label">Doctor</label>
+        <select id="appointment-doctor" name="appointment-doctor">
+            <option th:each="doctor : ${doctors}"
+                    th:value="${doctor.id}"
+                    th:text="${doctor.firstName + ' ' + doctor.lastName}"></option>
+        </select>
+
+        <label for="appointment-start-from">Choose a time for your appointment:</label>
+
+        <input type="datetime-local" id="appointment-start-from" name="appointment-start-from"
+
+               value="2018-06-12T19:30"
+               th:min="${#temporals.formatISO(currentTime)}"
+               th:max="${#temporals.formatISO(maxTime)}">
+
+        <p th:text="${#temporals.formatISO(currentTime)}"></p>
+    </form>
+
     <button type="button" class="button action-button" onclick="location.href='/appointments/available'">Search</button>
 
 </section>

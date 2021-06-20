@@ -36,8 +36,9 @@
     margin: 0 50px 20px 50px;
 }
 .buttons-container {
-    display: flex;
     width: available;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .navigation-button {
@@ -71,4 +72,8 @@
 
 .appointment-type {
     text-transform: capitalize;
+}
+
+.parameter-label {
+    text-transform: uppercase;
 }

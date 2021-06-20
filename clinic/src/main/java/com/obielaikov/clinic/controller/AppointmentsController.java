@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.ZonedDateTime;
+
 @Controller
 @RequestMapping("/appointments")
 @RequiredArgsConstructor
@@ -33,6 +35,11 @@ public class AppointmentsController {
         model.addAttribute("title", "Appointment time slots search");
         model.addAttribute("description", "Select needed parameters to search for available time slots. Or create a new time slot.");
         model.addAttribute("subtitle", "Available appointment time slots search parameters");
+        model.addAttribute("examinationTypes", appointmentService.listAllExaminationTypes());
+        model.addAttribute("procedureTypes", appointmentService.listAllProcedureTypes());
+        model.addAttribute("doctors", appointmentService.listAllDoctors());
+        model.addAttribute("currentTime", ZonedDateTime.now().toLocalDateTime());
+        model.addAttribute("maxTime", ZonedDateTime.now().plusYears(1).toLocalDateTime());
         return "available-search";
     }
 
