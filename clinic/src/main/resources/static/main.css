@@ -30,6 +30,8 @@
 
 .button {
     font-size: large;
+    padding: 16px;
+    border: 0;
 }
 
 .navigation-button {
