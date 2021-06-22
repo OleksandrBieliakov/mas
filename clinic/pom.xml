@@ -56,6 +56,7 @@
 							<profiles>
 								<profile>default</profile>
 								<profile>dev</profile>
+								<profile>data</profile>
 							</profiles>
 						</configuration>
 					</plugin>
@@ -74,6 +75,7 @@
 						<artifactId>spring-boot-maven-plugin</artifactId>
 						<configuration>
 							<profiles>
+								<profile>default</profile>
 								<profile>data</profile>
 							</profiles>
 						</configuration>
