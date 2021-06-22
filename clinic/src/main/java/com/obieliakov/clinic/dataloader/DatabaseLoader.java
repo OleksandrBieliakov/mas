@@ -6,6 +6,7 @@ import com.obieliakov.clinic.model.enums.Sex;
 import com.obieliakov.clinic.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
+@Profile("data")
 @Component
 @RequiredArgsConstructor
 public class DatabaseLoader implements CommandLineRunner {
