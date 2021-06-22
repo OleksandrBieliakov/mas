@@ -7,12 +7,7 @@ spring:
     resources:
       static-locations: file:src/main/resources/static/
 
-  h2:
-    console:
-      enabled: true
-
   jpa:
-    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
 
